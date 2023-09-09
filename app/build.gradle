@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'net.lxns.maimai.prober'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "net.lxns.maimai.prober"
         minSdk 28
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -60,4 +60,6 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    implementation("androidx.navigation:navigation-compose:2.7.1")
 }

@@ -1,4 +1,4 @@
-package net.lxns.maimai.prober.ui.theme
+package net.lxns.maimai.prober.app.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
