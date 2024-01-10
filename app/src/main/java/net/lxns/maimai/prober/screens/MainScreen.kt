@@ -3,19 +3,18 @@ package net.lxns.maimai.prober.screens
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import net.lxns.maimai.prober.components.TabNavBar
 import net.lxns.maimai.prober.components.TopBar
@@ -27,11 +26,17 @@ fun MainScreen(navHostController: NavHostController) {
     var navigationSelectedItem by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
 
-    val hasScaffoldSlots by navController.hasScaffoldSlots()
+    val topBarState = rememberSaveable { mutableStateOf(false) }
+    val bottomBarState = rememberSaveable { mutableStateOf(false) }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    topBarState.value = isTopLevelScreens(navBackStackEntry = navBackStackEntry)
+    bottomBarState.value = isTopLevelScreens(navBackStackEntry = navBackStackEntry)
 
     Scaffold(
-        topBar = { if (hasScaffoldSlots) TopBar(navController = navController) },
-        bottomBar = { if (hasScaffoldSlots) TabNavBar(
+        topBar = { if (topBarState.value) TopBar(navController = navController) },
+        bottomBar = { if (bottomBarState.value) TabNavBar(
             navController = navController,
             navigationSelectedItem = navigationSelectedItem,
             onClick = { navigationSelectedItem++ }
@@ -59,27 +64,5 @@ fun MainScreen(navHostController: NavHostController) {
 }
 
 @Composable
-private fun NavController.hasScaffoldSlots(): State<Boolean> {
-    val hasScaffoldSlotsState = remember { mutableStateOf(true) }
-
-    DisposableEffect(key1 = this) {
-        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            when {
-                destination.hierarchy
-                    .any {
-                        NavItem()
-                            .bottomNavigationItems()
-                            .any { item -> it.route == item.route  }
-                    } -> {
-                    hasScaffoldSlotsState.value = true
-                }
-                else -> {
-                    hasScaffoldSlotsState.value = false
-                }
-            }
-        }
-        addOnDestinationChangedListener(listener)
-        // TODO: Figure out what to return here
-    }
-    return hasScaffoldSlotsState
-}
+fun isTopLevelScreens(navBackStackEntry: NavBackStackEntry?) =
+    NavItem().bottomNavigationItems().any { it.route == navBackStackEntry?.destination?.route }
