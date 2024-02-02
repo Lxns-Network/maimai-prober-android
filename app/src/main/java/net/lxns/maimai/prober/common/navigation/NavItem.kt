@@ -18,12 +18,7 @@ data class NavItem(
                 label = R.string.home,
                 icon = Icons.Filled.Home,
                 route = Screens.Home.route
-            ),
-            NavItem(
-                label = R.string.settings,
-                icon = Icons.Filled.Settings,
-                route = Screens.Settings.route
-            ),
+            )
         )
     }
 }

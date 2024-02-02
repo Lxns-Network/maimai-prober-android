@@ -10,12 +10,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import net.lxns.maimai.prober.LocalNavigator
 import net.lxns.maimai.prober.common.components.TabNavBar
 import net.lxns.maimai.prober.common.components.TopBar
 import net.lxns.maimai.prober.common.navigation.NavItem
@@ -23,7 +25,7 @@ import net.lxns.maimai.prober.features.landing.LandingScreen
 import org.koin.compose.koinInject
 
 @Composable
-fun Router(navHostController: NavHostController = koinInject()) {
+fun Router(navHostController: NavHostController = LocalNavigator.current) {
     var navigationSelectedItem by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
 
