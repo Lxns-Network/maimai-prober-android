@@ -1,4 +1,4 @@
-package net.lxns.maimai.prober.components
+package net.lxns.maimai.prober.common.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack

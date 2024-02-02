@@ -1,4 +1,4 @@
-package net.lxns.maimai.prober.screens
+package net.lxns.maimai.prober.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,13 +16,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import net.lxns.maimai.prober.components.TabNavBar
-import net.lxns.maimai.prober.components.TopBar
-import net.lxns.maimai.prober.navigation.NavItem
-import net.lxns.maimai.prober.navigation.Screens
+import net.lxns.maimai.prober.common.components.TabNavBar
+import net.lxns.maimai.prober.common.components.TopBar
+import net.lxns.maimai.prober.common.navigation.NavItem
+import net.lxns.maimai.prober.features.landing.LandingScreen
+import org.koin.compose.koinInject
 
 @Composable
-fun MainScreen(navHostController: NavHostController) {
+fun Router(navHostController: NavHostController = koinInject()) {
     var navigationSelectedItem by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
 
@@ -45,19 +46,11 @@ fun MainScreen(navHostController: NavHostController) {
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screens.Home.route,
+            startDestination = Screens.Landing.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
-            composable(Screens.Home.route) {
-                HomeScreen(navController)
-            }
-
-            composable(Screens.Settings.route) {
-                SettingsScreen()
-            }
-
-            composable(Screens.Login.route) {
-                LoginScreen()
+            composable(Screens.Landing.route) {
+                LandingScreen()
             }
         }
     }

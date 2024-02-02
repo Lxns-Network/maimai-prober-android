@@ -1,4 +1,4 @@
-package net.lxns.maimai.prober.theme
+package net.lxns.maimai.prober.common.theme
 
 import android.app.Activity
 import android.os.Build

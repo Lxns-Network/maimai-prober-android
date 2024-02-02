@@ -1,7 +1,15 @@
 package net.lxns.maimai.prober.navigation
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import org.koin.compose.koinInject
+
 sealed class Screens(val route: String) {
-    object Home: Screens("home")
-    object Settings: Screens("settings")
-    object Login: Screens("login")
+    object Landing : Screens("landing")
+
+    @Composable
+    fun route(navHost: NavHostController = koinInject(), navOptions: NavOptions? = null) {
+        navHost.navigate(route, navOptions)
+    }
 }
